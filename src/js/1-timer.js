@@ -36,11 +36,13 @@ const DI = flatpickr(".date-input", {
                 theme: 'light',
             });
             
+            dateInput.classList.add('error');
             startBtn.setAttribute("disabled", "");
             startBtn.classList.add('disabled');
         } else {
             startBtn.removeAttribute("disabled", "");
             startBtn.classList.remove('disabled');
+            dateInput.classList.remove('error');
 
             UserSelectedDeadline = selectedDates[0];
         }
@@ -65,6 +67,7 @@ const timer = {
                 startBtn.removeAttribute("disabled", "");
                 startBtn.classList.remove('disabled');
                 dateInput.removeAttribute("disabled", "");
+                dateInput.classList.remove('error');
 
                 iziToast.show({
                     message: 'Time is out!🎉',

@@ -1,70 +1,68 @@
-//TODO: Форма
-//?  У JS напиши скрипт, який буде зберігати значення полів у локальне сховище, коли користувач щось друкує.
+//TODO: Генератор промісів
+//? Напиши скрипт, який після сабміту форми створює проміс.  
 
-//* Find elements
-const feedbackForm = document.querySelector('.feedback-form');
+//* Import libraries
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 
-//* Create Obj
-let formData = {
-    email: "", 
-    message: "",
+//* Find elements 
+const formEl = document.querySelector('form');
+const delayInput = document.querySelector('.delay-input');
+const stateInputFieldset = document.querySelector('.state-input-fieldset');
+const notificatBtn = document.querySelector('.notificate-btn');
+const radio = document.querySelectorAll('.radio-input');
+
+//* Add event listener
+const onFormSubmit = delay => {
+    let promiseStatus;
+    radio.forEach((el) => {
+        if (el.checked) {
+                promiseStatus = el.value;
+        }
+    });
+
+    let promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (promiseStatus === 'fulfilled') {
+                resolve(`✅ Fulfilled promise in ${delay}ms`);
+            } else if(promiseStatus === 'rejected') {
+                reject(`❌ Rejected promise in ${delay}ms`);
+            }
+        }, delay);
+    });
+
+    return promise;
 }
 
-//* Fill form
-const fillForm = () => {
-    try{
-        const formDataLS = JSON.parse(localStorage.getItem('feedback-form-state'));
-        
-        if(formDataLS === null){
-            return;
-        }
-        
-        formData = formDataLS;
-        for(let key in formDataLS){
-            feedbackForm.elements[key].value = formDataLS[key];
-        }
-    } catch (err){
-        console.log(err);
-    }
-}
-fillForm();
-
-//* Add event listeners and function for saving data in LS
-const onFormInput = event => {
-    const {target: elInput} = event;
-
-    const inputName = elInput.name;
-    const inputValue = elInput.value;
-
-    formData[inputName] = inputValue;
-
-    localStorage.setItem('feedback-form-state', JSON.stringify(formData));
-};
-
-feedbackForm.addEventListener('input', onFormInput)
-
-//* Add event listeners and function for submiting form
-const onFormSubmit = event => {
+formEl.addEventListener('submit', event => {
     event.preventDefault();
+    
+    onFormSubmit(delayInput.value)
+    .then(message => {
+        console.log(message);
 
-    const email = event.target.elements.email.value.trim();
-    const message = event.target.elements.message.value.trim();
-        
-    if (email === '' || message === '') {
-        alert('Fill please all fields');
-        return;
-    }else {
-        localStorage.removeItem('feedback-form-state');
-        console.log(formData);
+        iziToast.show({
+            message: message,
+            messageColor: 'white',
+            messageSize: '30',
+            backgroundColor: 'green',
+            theme: 'light',
+        });
+    })
+    .catch(message => {
+        console.log(message); 
 
-        formData = {
-            email: "", 
-            message: "",
-        }
+        iziToast.show({
+            message: message,
+            messageColor: 'white',
+            messageSize: '30',
+            backgroundColor: 'red',
+            theme: 'light',
+        });
+    })
 
-        feedbackForm.reset();
-    }
-
-};
-
-feedbackForm.addEventListener('submit', onFormSubmit);
+    delayInput.value = '';
+    radio.forEach((el) => {
+        el.checked = false;
+    });
+});
