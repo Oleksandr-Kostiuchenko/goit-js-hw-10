@@ -52,3 +52,86 @@ body {
 /* -------------------------- /RESET  -------------------------- */
 
 /* -------------------------- GALLERY STYLES  -------------------------- */
+.start-btn{
+  width: 75px;
+  height: 40px;
+
+  border: none;
+  border-radius: 8px;
+
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: #fff;
+
+  background-color: #4e75ff;
+
+  transition: background-color 250ms linear;
+}
+
+.start-btn:hover{
+  background-color: #6c8cff;
+}
+
+.date-input{
+  width: 272px;
+  height: 40px;
+
+  border-radius: 5px;
+  border: 1px black solid;
+}
+
+.field{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 55px;
+  height: 72px;
+}
+
+.value{
+  font-family: "Montserrat", sans-serif;
+
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  color: #2e2f42;
+}
+
+.label{
+  font-family: "Montserrat", sans-serif;
+
+font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #2e2f42;
+}
+
+.timer{
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 50px;
+}
+
+.time-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  margin-top: 50px;
+}
+
+.disabled{
+  pointer-events: none;
+  background-color: #cfcfcf;
+  color: #989898;
+}
